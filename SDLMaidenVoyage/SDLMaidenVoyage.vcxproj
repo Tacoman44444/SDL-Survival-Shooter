@@ -19,29 +19,64 @@
     </ProjectConfiguration>
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="Bullet.cpp" />
+    <ClCompile Include="Camera.cpp" />
+    <ClCompile Include="CollisionDetector.cpp" />
+    <ClCompile Include="Entity.cpp" />
+    <ClCompile Include="EntitySpawner.cpp" />
+    <ClCompile Include="GameState.cpp" />
+    <ClCompile Include="SetupHelper.cpp" />
+    <ClCompile Include="ShotgunParticle.cpp" />
+    <ClCompile Include="StateManager.cpp" />
+    <ClCompile Include="World.cpp" />
+    <ClCompile Include="Game.cpp" />
     <ClCompile Include="GameData.h" />
+    <ClCompile Include="GameOverState.cpp" />
     <ClCompile Include="HelperFunctions.cpp" />
     <ClCompile Include="LButton.cpp" />
     <ClCompile Include="LTexture.cpp" />
+    <ClCompile Include="LWindow.cpp" />
     <ClCompile Include="main.cpp" />
+    <ClCompile Include="MainMenuState.cpp" />
     <ClCompile Include="Node.cpp" />
-    <ClCompile Include="SetupHelper.cpp" />
+    <ClCompile Include="Player.cpp" />
+    <ClCompile Include="PlayState.cpp" />
+    <ClCompile Include="Sniper.cpp" />
     <ClCompile Include="Tile.cpp" />
     <ClCompile Include="Timer.cpp" />
     <ClCompile Include="vec2.cpp" />
     <ClCompile Include="Zombie.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="Bullet.h" />
+    <ClInclude Include="Camera.h" />
+    <ClInclude Include="CollisionDetector.h" />
+    <ClInclude Include="Entity.h" />
+    <ClInclude Include="EntitySpawner.h" />
+    <ClInclude Include="Game.h" />
+    <ClInclude Include="GameOverState.h" />
+    <ClInclude Include="GameState.h" />
     <ClInclude Include="Grid.h" />
     <ClInclude Include="HelperFunctions.h" />
     <ClInclude Include="LButton.h" />
+    <ClInclude Include="Level.h" />
     <ClInclude Include="LTexture.h" />
+    <ClInclude Include="LWindow.h" />
+    <ClInclude Include="MainMenuState.h" />
     <ClInclude Include="Node.h" />
+    <ClInclude Include="Particle.h" />
+    <ClInclude Include="PlayState.h" />
+    <ClInclude Include="ShotgunParticle.h" />
+    <ClInclude Include="Sniper.h" />
+    <ClInclude Include="StateManager.h" />
     <ClInclude Include="Tile.h" />
     <ClInclude Include="SetupHelper.h" />
     <ClInclude Include="TileData.h" />
     <ClInclude Include="Timer.h" />
+    <ClInclude Include="UpdateContext.h" />
     <ClInclude Include="vec2.h" />
+    <ClInclude Include="Player.h" />
+    <ClInclude Include="World.h" />
     <ClInclude Include="Zombie.h" />
   </ItemGroup>
   <PropertyGroup Label="Globals">

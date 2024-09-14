@@ -14,11 +14,12 @@ class Tile {
 public:
 
 	Tile(int x, int y, int tileType);
-	void render(SDL_Rect& camera);
+	void render(const SDL_Rect& camera);
 
 	Tile getTile() const;
 	int getType() const;
 	SDL_Rect getBox() const;
+	Coordinate GetCenter() const;
 	int getIndex() const;
 
 private:
@@ -30,6 +31,6 @@ extern bool operator == (const Tile& tile1, const Tile& tile2);
 
 extern bool operator != (const Tile& tile1, const Tile& tile2);
 
-extern bool TouchesWall(SDL_Rect box, Tile* tiles[]);
+extern bool TouchesWall(SDL_Rect box, std::vector<Tile*> tiles);
 
-extern bool SetTiles(Tile* tiles[]);
+extern bool SetTiles(std::vector<Tile*>& tiles, std::string mapFile);

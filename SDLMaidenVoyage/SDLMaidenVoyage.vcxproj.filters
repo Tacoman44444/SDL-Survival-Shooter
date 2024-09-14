@@ -13,15 +13,18 @@
       <UniqueIdentifier>{67DA6AB6-F800-4c08-8B7A-83BB121AAD01}</UniqueIdentifier>
       <Extensions>rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx;tiff;tif;png;wav;mfcribbon-ms</Extensions>
     </Filter>
+    <Filter Include="Header Files\FSMs">
+      <UniqueIdentifier>{3215bb29-0076-4456-a460-072cd5c3c309}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\Particles">
+      <UniqueIdentifier>{7e928777-c726-4db8-9632-15095f4cfcaf}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="main.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="GameData.h">
-      <Filter>Header Files</Filter>
-    </ClCompile>
-    <ClCompile Include="SetupHelper.cpp">
       <Filter>Header Files</Filter>
     </ClCompile>
     <ClCompile Include="HelperFunctions.cpp">
@@ -47,6 +50,57 @@
     </ClCompile>
     <ClCompile Include="LButton.cpp">
       <Filter>Header Files</Filter>
+    </ClCompile>
+    <ClCompile Include="LWindow.cpp">
+      <Filter>Header Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Camera.cpp">
+      <Filter>Header Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Bullet.cpp">
+      <Filter>Header Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Sniper.cpp">
+      <Filter>Header Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Player.cpp">
+      <Filter>Header Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Game.cpp">
+      <Filter>Header Files</Filter>
+    </ClCompile>
+    <ClCompile Include="MainMenuState.cpp">
+      <Filter>Header Files\FSMs</Filter>
+    </ClCompile>
+    <ClCompile Include="PlayState.cpp">
+      <Filter>Header Files\FSMs</Filter>
+    </ClCompile>
+    <ClCompile Include="GameOverState.cpp">
+      <Filter>Header Files\FSMs</Filter>
+    </ClCompile>
+    <ClCompile Include="World.cpp">
+      <Filter>Header Files</Filter>
+    </ClCompile>
+    <ClCompile Include="EntitySpawner.cpp">
+      <Filter>Header Files</Filter>
+    </ClCompile>
+    <ClCompile Include="CollisionDetector.cpp">
+      <Filter>Header Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Entity.cpp">
+      <Filter>Header Files</Filter>
+    </ClCompile>
+    <ClCompile Include="GameState.cpp">
+      <Filter>Header Files\FSMs</Filter>
+    </ClCompile>
+    <ClCompile Include="SetupHelper.cpp">
+      <Filter>Header Files</Filter>
+    </ClCompile>
+    <ClCompile Include="StateManager.cpp">
+      <Filter>Header Files\FSMs</Filter>
+    </ClCompile>
+    <ClCompile Include="ShotgunParticle.cpp">
+      <Filter>Header Files\Particles</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -82,6 +136,63 @@
     </ClInclude>
     <ClInclude Include="LButton.h">
       <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="LWindow.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Player.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Camera.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Bullet.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Sniper.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Game.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="GameState.h">
+      <Filter>Header Files\FSMs</Filter>
+    </ClInclude>
+    <ClInclude Include="MainMenuState.h">
+      <Filter>Header Files\FSMs</Filter>
+    </ClInclude>
+    <ClInclude Include="PlayState.h">
+      <Filter>Header Files\FSMs</Filter>
+    </ClInclude>
+    <ClInclude Include="GameOverState.h">
+      <Filter>Header Files\FSMs</Filter>
+    </ClInclude>
+    <ClInclude Include="Entity.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="World.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="UpdateContext.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="EntitySpawner.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="CollisionDetector.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Level.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="StateManager.h">
+      <Filter>Header Files\FSMs</Filter>
+    </ClInclude>
+    <ClInclude Include="Particle.h">
+      <Filter>Header Files\Particles</Filter>
+    </ClInclude>
+    <ClInclude Include="ShotgunParticle.h">
+      <Filter>Header Files\Particles</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

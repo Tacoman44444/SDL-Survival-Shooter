@@ -7,7 +7,7 @@ Tile::Tile(int x, int y, int tileType) : type(tileType) {
 	box.h = TileData::TILE_HEIGHT;
 }
 
-void Tile::render(SDL_Rect& camera) {
+void Tile::render(const SDL_Rect& camera) {
 	if (HelperFunctions::CheckCollision(camera, box)) {
 		gTileTexture.Render(box.x - camera.x, box.y - camera.y, &gTileClips[type]);
 	}
@@ -23,6 +23,10 @@ int Tile::getType() const {
 
 SDL_Rect Tile::getBox() const {
 	return box;
+}
+
+Coordinate Tile::GetCenter() const {
+	return Coordinate(box.x + (box.w / 2), box.y + (box.h / 2));
 }
 
 int Tile::getIndex() const {
@@ -43,7 +47,7 @@ bool operator != (const Tile& tile1, const Tile& tile2) {
 	return !(tile1 == tile2);
 }
 
-bool TouchesWall(SDL_Rect box, Tile* tiles[]) {
+bool TouchesWall(SDL_Rect box, std::vector<Tile*> tiles) {
 	for (int i = 0; i < TileData::TOTAL_TILES; i++) {
 		if ((tiles[i]->getType() >= TileData::TILE_CENTER) && (tiles[i]->getType() <= TileData::TILE_TOPLEFT)) { //see const values of tile center and topleft to understand 
 			if (HelperFunctions::CheckCollision(box, tiles[i]->getBox())) {
@@ -54,18 +58,19 @@ bool TouchesWall(SDL_Rect box, Tile* tiles[]) {
 	return false;
 }
 
-bool SetTiles(Tile* tiles[]) {
+bool SetTiles(std::vector<Tile*>& tiles, std::string mapFile) {
 	bool tilesLoaded = true;
 
 	int x = 0, y = 0;
 
-	std::ifstream map("Assets/level.map");
+	std::ifstream map(mapFile);
 
 	if (map.fail()) {
 		std::cout << "Unable to load map file \n";
 		tilesLoaded = false;
 	}
 	else {
+		std::cout << "we here";
 		for (int i = 0; i < TileData::TOTAL_TILES; ++i) {
 			int tileType = -1;
 
@@ -77,7 +82,8 @@ bool SetTiles(Tile* tiles[]) {
 				break;
 			}
 			if ((tileType >= 0) && (tileType < TileData::TOTAL_TILE_SPRITES)) {
-				tiles[i] = new Tile(x, y, tileType);
+				Tile* newTile = new Tile(x, y, tileType);
+				tiles.push_back(newTile);
 			}
 			else {
 				std::cout << "Error loading map: invalis tile type at " << i << "\n";
@@ -91,6 +97,8 @@ bool SetTiles(Tile* tiles[]) {
 				x = 0;
 				y += TileData::TILE_HEIGHT;
 			}
+
+			std::cout << i << "\n";
 		}
 		if (tilesLoaded) {
 			gTileClips[TileData::TILE_RED].x = 0;

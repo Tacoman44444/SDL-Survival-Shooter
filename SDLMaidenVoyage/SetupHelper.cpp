@@ -4,7 +4,7 @@ bool Init() {
 
 	bool success = true;
 
-	if (SDL_Init(SDL_INIT_VIDEO | SDL_INIT_AUDIO) < 0) {
+	if (SDL_Init(SDL_INIT_VIDEO | SDL_INIT_AUDIO | SDL_INIT_TIMER) < 0) {
 		std::cout << "failed to initialize sdl window, SDL error: " << SDL_GetError() << "\n";
 		success = false;
 	}
@@ -45,7 +45,7 @@ bool Init() {
 	return success;
 }
 
-bool LoadMedia(Tile* tiles[]) {
+bool LoadMedia() {
 	bool success = true;
 
 	if (!playerTexture.LoadFromFile("Assets/KIRBYWITHGUNS.png")) {
@@ -79,6 +79,10 @@ bool LoadMedia(Tile* tiles[]) {
 		std::cout << "could not load Game Over Background Texture\n";
 		success = false;
 	}
+	if (!gShotgunParticleTexture.LoadFromFile("Assets/ShotgunParticle.png")) {
+		std::cout << "could not load Shotgun Particle texture\n";
+		success = false;
+	}
 	gFont = TTF_OpenFont("Assets/SuperFunky-lgmWw.ttf", 40);
 	if (gFont == NULL) {
 		std::cout << "failed to load font from file\n";
@@ -107,10 +111,6 @@ bool LoadMedia(Tile* tiles[]) {
 		std::cout << "Failed to load tile set testure \n";
 		success = false;
 	}
-	if (!SetTiles(tiles)) {
-		std::cout << "Failed to load tile set \n";
-		success = false;
-	}
 	gMusic = Mix_LoadMUS("Assets/music.wav");
 	if (gMusic == NULL) {
 		std::cout << "Failed to load music! SDL mixer error: " << Mix_GetError() << "\n";
@@ -129,6 +129,14 @@ bool LoadMedia(Tile* tiles[]) {
 	}
 
 	return success;
+}
+
+void ResetGameState(std::vector<Bullet>& bulletList, std::vector<Sniper>& sniperList, std::vector<Zombie>& zombieList, Player& player) {
+	bulletList.clear();
+	sniperList.clear();
+	zombieList.clear();
+	player.~Player();
+
 }
 
 void Close() {

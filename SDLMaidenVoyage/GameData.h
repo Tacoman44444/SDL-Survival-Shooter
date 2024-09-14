@@ -5,14 +5,8 @@
 #include <SDL_mixer.h>
 #include <vector>
 #include "vec2.h"
-class Bullet;
 
-enum PlayerSprites {
-	PLAYER_SPRITE_DOWN,
-	PLAYER_SPRITE_LEFT,
-	PLAYER_SPRITE_RIGHT,
-	PLAYER_SPRITE_UP,
-};
+class Bullet;
 
 enum Shooter {
 	PLAYER,
@@ -25,23 +19,26 @@ inline const int LEVEL_HEIGHT = 2000;
 inline const int GRIDSIZE_X = 25;
 inline const int GRIDSIZE_Y = 25;
 
-inline const int SCREEN_WIDTH = 960;
-inline const int SCREEN_HEIGHT = 540;
+inline const int SCREEN_WIDTH = 1440;
+inline const int SCREEN_HEIGHT = 810;
 
 inline const int TOTAL_SNIPER_SPAWNS = 13;
 inline const int TOTAL_ZOMBIE_SPAWNS = 13;
 
+inline const int MAX_SNIPERS = 3;
+inline const int MAX_ZOMBIES = 1;
+
 inline int score = 0;
 
-inline SDL_Window* gWindow = NULL;
-inline SDL_Renderer* gRenderer = NULL;
-inline SDL_Surface* gScreenSurface = NULL;
+inline SDL_Window* gWindow = nullptr;
+inline SDL_Renderer* gRenderer = nullptr;
+inline SDL_Surface* gScreenSurface = nullptr;
 
-inline Mix_Music* gMusic = NULL;
-inline Mix_Chunk* gSniperFireSFX = NULL;
-inline Mix_Chunk* gPlayerFireSFX = NULL;
+inline Mix_Music* gMusic = nullptr;
+inline Mix_Chunk* gSniperFireSFX = nullptr;
+inline Mix_Chunk* gPlayerFireSFX = nullptr;
 
-inline TTF_Font* gFont = NULL;
+inline TTF_Font* gFont = nullptr;
 inline SDL_Rect gPlayerSprites[4];
 inline SDL_Rect gTileClips[12];
 

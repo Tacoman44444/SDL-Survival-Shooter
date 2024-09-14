@@ -14,6 +14,8 @@ LTexture gMainMenuTexture;
 LTexture gHighScoreTexture;
 LTexture gGameOverBackgroundTexture;
 LTexture gPlayerHealthTexture;
+LTexture gShotgunParticleTexture;
+
 
 LTexture gTileTexture;
 
@@ -83,8 +85,8 @@ void LTexture::free() {
 	if (mTexture != NULL) {
 		SDL_DestroyTexture(mTexture);
 		mTexture = NULL;
-		mWidth = 0;
-		mHeight = 0;
+		mWidth = -1;
+		mHeight = -1;
 	}
 }
 
