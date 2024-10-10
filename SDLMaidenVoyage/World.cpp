@@ -1,11 +1,12 @@
 #include "World.h"
 
-World::World(Level& level) : spawner(*this), currentLevel(level)
+World::World(Level& level, ScoreManager* scoreManager) : spawner(*this), currentLevel(level)
 
 {
 	context = new UpdateContext;
 	camera = new Camera();
 	player = new Player();
+	_scoreManager = scoreManager;
 	context->camera = camera;
 	context->player = player;
 	entities.push_back(player);
@@ -41,6 +42,7 @@ void World::Update(double timestep) {
 		if (entities[i]->IsDead()) {
 			std::cout << "why the fuck is my bullet dead???\n";
 			if (Sniper* sniper = dynamic_cast<Sniper*>(entities[i])) {
+				_scoreManager->IncrementScore();
 				numSnipers--;
 				auto it = std::find(activeSniperLocations.begin(), activeSniperLocations.end(), sniper->GetCoordinates());
 				if (it != activeSniperLocations.end()) {
@@ -48,9 +50,11 @@ void World::Update(double timestep) {
 				}
 			}
 			else if (Zombie* zombie = dynamic_cast<Zombie*>(entities[i])) {
+				_scoreManager->IncrementScore();
 				numZombies--;
 			}
 
+			
 			delete entities[i];
 			entities.erase(entities.begin() + i);
 		}
@@ -62,13 +66,13 @@ void World::Update(double timestep) {
 
 	HandleCollisions();
 	
-	if (numSnipers < 0) {
+	if (numSnipers < 3) {
 		std::cout << "spawing numsnipers\n";
 		spawner.SpawnSniper(activeSniperLocations);
 		numSnipers++;
 	}
 
-	if (numZombies < 0) {
+	if (numZombies < 7) {
 		std::cout << "spawning numzombies\n";
 		spawner.SpawnZombie();
 		numZombies++;
@@ -88,12 +92,12 @@ void World::Render() {
 			std::cout << "the fuck??????\n";
 		}
 		else {
-			std::cout << "Rendering Entity number: " << i << std::endl;
 			entity->Render(*context);
 		}
 		i++;
 		
 	}
+	_scoreManager->DisplayScore(20, 20);
 }
 
 void World::AddEntity(Entity* entity) {

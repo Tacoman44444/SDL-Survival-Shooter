@@ -4,6 +4,7 @@ MainMenuState::MainMenuState() : PressPlayButton(LButton(gPressPlayTexture)) {}
 
 void MainMenuState::Enter() {
 	PressPlayButton.SetDimensions(SCREEN_WIDTH / 2, SCREEN_HEIGHT / 2, gPressPlayTexture.GetWidth(), gPressPlayTexture.GetWidth());
+
 }
 
 GameState* MainMenuState::HandleEvent(SDL_Event& e) {

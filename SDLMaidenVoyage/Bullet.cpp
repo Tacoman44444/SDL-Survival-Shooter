@@ -39,6 +39,10 @@ void Bullet::Update(UpdateContext& context, double timestep) {
 	if (OutOfBounds()) {
 		isDestroyed = true;
 	}
+	if (HitsWall(context.tiles)) {
+		isDestroyed = true;
+	}
+
 }
 
 void Bullet::Render(UpdateContext& context) {
@@ -105,14 +109,12 @@ void Bullet::OnCollide(Player& player) {
 
 void Bullet::OnCollide(Zombie& zombie) {
 	if (shooter == PLAYER) {
-		std::cout << "HOW DID TH BULLET COLLIDE WUITH ZOMBIE IT IS NOT EVEN IN IT BROT\n";
 		isDestroyed = true;
 	}
 }
 
 void Bullet::OnCollide(Sniper& sniper) {
 	if (shooter == PLAYER) {
-		std::cout << "BRUHHHHH THISCODE SHOULD NOT BE CALLED THERE IS NO SNIEPR IN MY GAME  A A F AFA \n";
 		isDestroyed = true;
 	}
 }
@@ -120,6 +122,19 @@ void Bullet::OnCollide(Sniper& sniper) {
 bool Bullet::OutOfBounds() {
 	SDL_Rect level = { 0, 0, LEVEL_WIDTH, LEVEL_HEIGHT };
 	if (!HelperFunctions::EntityInFrame(level, Coordinate(PosX, PosY))) {
+		return true;
+	}
+	return false;
+}
+
+bool Bullet::HitsWall(const std::vector<Tile*>& tiles) {
+
+	Coordinate bulletCoordsOnGrid = HelperFunctions::GetNodePointFromWorld(Coordinate(PosX, PosY));
+	//FIXFIXFIXFIXFIXFIXFIXFIXFIXFIsssssX
+	std::cout << "bullet coordinates converted to grid coordinates: " << bulletCoordsOnGrid << std::endl;
+	std::cout << "converted for tile vector: " << bulletCoordsOnGrid.y * TileData::TOTAL_TILES_ROW + bulletCoordsOnGrid.x << std::endl;
+
+	if (tiles[bulletCoordsOnGrid.y * TileData::TOTAL_TILES_ROW + bulletCoordsOnGrid.x]->getType() == 3) {
 		return true;
 	}
 	return false;

@@ -5,6 +5,8 @@ namespace TileData {
 	inline const int TILE_WIDTH = 80;
 	inline const int TILE_HEIGHT = 80;
 	inline const int TOTAL_TILES = 625;
+	inline const int TOTAL_TILES_ROW = 25;
+	inline const int TOTAL_TILES_COLUMN = 25;
 	inline const int TOTAL_TILE_SPRITES = 12;
 
 	//The different tile sprites

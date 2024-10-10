@@ -48,7 +48,7 @@ bool Init() {
 bool LoadMedia() {
 	bool success = true;
 
-	if (!playerTexture.LoadFromFile("Assets/KIRBYWITHGUNS.png")) {
+	if (!playerTexture.LoadFromFile("Assets/pirate.png")) {
 		std::cout << "could not load player image \n";
 		success = false;
 	}
@@ -83,7 +83,7 @@ bool LoadMedia() {
 		std::cout << "could not load Shotgun Particle texture\n";
 		success = false;
 	}
-	gFont = TTF_OpenFont("Assets/SuperFunky-lgmWw.ttf", 40);
+	gFont = TTF_OpenFont("Assets/joystix monospace.otf", 40);
 	if (gFont == NULL) {
 		std::cout << "failed to load font from file\n";
 		success = false;
@@ -98,7 +98,7 @@ bool LoadMedia() {
 			success = false;
 		}
 		if (!gHighScoreTexture.LoadFromRenderedText("Score: " + std::to_string(score), SDL_Color{ 128, 128, 128 })) {
-			std::cout << "could not loadfromrenderedtext high score";
+			std::cout << "could not loadfromrenderedtext: high score";
 			success = false;
 		}
 		if (!gPlayerHealthTexture.LoadFromRenderedText("Health: 100", SDL_Color{ 180, 0, 0 })) {

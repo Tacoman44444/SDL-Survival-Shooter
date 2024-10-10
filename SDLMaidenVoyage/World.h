@@ -11,6 +11,7 @@
 #include "Level.h"
 #include "Tile.h"
 #include "Camera.h"
+#include "ScoreManager.h"
 
 class CollisionDetector;
 class EntitySpawner;
@@ -19,7 +20,7 @@ class Sniper;
 class World {
 public:
 
-	World(Level& level);
+	World(Level& level,	ScoreManager* scoreManager);
 
 	//make copy constructor and copy assignment operator if needed
 
@@ -34,6 +35,7 @@ public:
 private:
 	Player* player;		//could make player and camera shared pointers
 	Camera* camera;
+	ScoreManager* _scoreManager;
 	std::vector<Entity*> entities;
 	std::vector<vec2> activeSniperLocations;
 	int numEntities;

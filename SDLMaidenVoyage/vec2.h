@@ -1,5 +1,7 @@
 #pragma once
+
 #include<iostream>
+#include <cmath>
 
 class vec2 {
 
@@ -58,6 +60,10 @@ inline std::ostream& operator <<(std::ostream& output, const vec2& a) {
 inline vec2 direction(const vec2& start, const vec2& end) {
 	vec2 result = end - start;
 	return result.MakeUnitVector();
+}
+
+inline double magnitude(const vec2& a) {
+	return sqrt(a.x * a.x + a.y * a.y);
 }
 
 inline double dot2D(const vec2& v1, const vec2& v2) {

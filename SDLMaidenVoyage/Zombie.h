@@ -14,7 +14,7 @@ class Player;
 
 struct UpdateContext;
 
-class Zombie : public Entity{
+class Zombie : public Entity {
 public:
 
 	static const int ZOMBIE_WIDTH = 50;
@@ -31,7 +31,8 @@ public:
 
 
 	void TakeDamage(int damage);
-	void Move(const Coordinate& playerCoordinates, std::vector<Tile*>& tiles);
+	void LOS_Move(Player* player, const std::vector<Tile*>& tiles);
+	void UpdatePath(const Coordinate& playerCoordinates, std::vector<Tile*>& tiles);
 
 
 	void OnCollide(Entity& entity);
@@ -46,12 +47,13 @@ public:
 	Coordinate GetCoordinates();
 	SDL_Rect GetCollider();
 	SDL_Rect GetMainCollider();
-	
+
 
 private:
 	vec2 zombiePosition;
 	vec2 targetPosition;
 	Uint32 lastHit;
-	std::vector<Tile*> currentPath;
+	std::vector<const Tile*> currentPath;
 	int health;
-	SDL_Rect mMainCollider;};
+	SDL_Rect mMainCollider;
+};

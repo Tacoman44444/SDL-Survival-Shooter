@@ -158,6 +158,38 @@ namespace HelperFunctions {
 		return distr(eng);
 	}
 
+
+	
+	bool RayCaster(const Coordinate& a, const Coordinate& b, const std::vector<Tile*>& tiles) {
+		int x0 = a.x / TileData::TILE_WIDTH;
+		int y0 = a.y / TileData::TILE_HEIGHT;
+		int x1 = b.x / TileData::TILE_WIDTH;
+		int y1 = b.y / TileData::TILE_HEIGHT;
+
+		int dx = abs(x1 - x0);
+		int dy = abs(y1 - y0);
+		int sx = (x0 < x1) ? 1 : -1;
+		int sy = (y0 < y1) ? 1 : -1;
+		int err = dx - dy;
+
+		while (x0 != x1 || y0 != y1) {
+			if (tiles[y0 * TileData::TOTAL_TILES_ROW + x0]->getType() == 3) {
+				return false;
+			}
+
+			int e2 = 2 * err;
+			if (e2 > -dy) {
+				err -= dy;
+				x0 += sx;
+			}
+			if (e2 < dx) {
+				err += dx;
+				y0 += sy;
+			}
+		}
+		return true;
+	}
+
 	
 
 }

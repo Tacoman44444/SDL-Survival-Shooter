@@ -20,8 +20,8 @@ class EntitySpawner;
 class Player : public Entity {
 
 public:
-	const int PLAYER_WIDTH = 50;
-	const int PLAYER_HEIGHT = 50;
+	const int PLAYER_WIDTH = 30;
+	const int PLAYER_HEIGHT = 70;
 	const int PLAYER_VELOCITY = 10; //640 pixels travelled per second
 	const int PLAYER_HEALTH = 100;
 	const double RATE_OF_FIRE = 0.2;

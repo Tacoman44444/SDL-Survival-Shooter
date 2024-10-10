@@ -2,13 +2,14 @@
 
 PlayState::PlayState(Level& level) {
 	currentLevel = level;
+	scoreManager = new ScoreManager();
 	std::cout << "The playstate constructor works" << std::endl;
 }
 
 void PlayState::Enter() 
 {
 	std::cout << "We have entered PlayState::Enter()" << std::endl;
-	world = std::make_unique<World>(currentLevel);
+	world = std::make_unique<World>(currentLevel, scoreManager);
 	std::cout << "The world has been initialized" << std::endl;
 	world->Initialise();
 	std::cout << "The world was initialized";
@@ -19,7 +20,7 @@ void PlayState::Enter()
 
 GameState* PlayState::HandleEvent(SDL_Event& e) {
 	if (player->GetHealth() <= 0) {
-		return new GameOverState(currentLevel);
+		return new GameOverState(currentLevel, scoreManager);
 	}
 	world->HandleInput(e);
 	return nullptr;

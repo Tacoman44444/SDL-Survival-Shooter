@@ -102,6 +102,9 @@
     <ClCompile Include="ShotgunParticle.cpp">
       <Filter>Header Files\Particles</Filter>
     </ClCompile>
+    <ClCompile Include="ScoreManager.cpp">
+      <Filter>Header Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="vec2.h">
@@ -193,6 +196,9 @@
     </ClInclude>
     <ClInclude Include="ShotgunParticle.h">
       <Filter>Header Files\Particles</Filter>
+    </ClInclude>
+    <ClInclude Include="ScoreManager.h">
+      <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

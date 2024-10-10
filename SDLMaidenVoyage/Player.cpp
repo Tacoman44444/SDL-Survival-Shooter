@@ -6,9 +6,9 @@ Player::Player() {
 	VelX = 0;
 	VelY = 0;
 	mCollider.h = PLAYER_HEIGHT - 10;
-	mCollider.w = PLAYER_WIDTH - 10;
-	mCollider.x = PosX - 10;
-	mCollider.y = PosY - 10;
+	mCollider.w = PLAYER_WIDTH;
+	mCollider.x = PosX - 5;
+	mCollider.y = PosY - 5;
 	health = PLAYER_HEALTH;
 	fireThisFrame = false;
 	startTime = SDL_GetTicks();
@@ -87,26 +87,26 @@ void Player::Update(UpdateContext& context, double timestep) {
 
 void Player::Move(std::vector<Tile*> tiles, double timestep) {
 	PosX += VelX;
-	mCollider.x = PosX;
+	mCollider.x = PosX + 7;
 	if (PosX < 0) {
 		PosX = 0;
-		mCollider.x = PosX;
+		mCollider.x = PosX + 7;
 	}
 	else if (PosX + PLAYER_WIDTH > LEVEL_WIDTH) {
 		PosX = LEVEL_WIDTH - PLAYER_WIDTH;
-		mCollider.x = PosX;
+		mCollider.x = PosX + 7;
 	}
 
 
 	PosY += VelY;
-	mCollider.y = PosY;
+	mCollider.y = PosY + 7;
 	if (PosY < 0) {
 		PosY = 0;
-		mCollider.y = PosY;
+		mCollider.y = PosY + 7;
 	}
 	else if (PosY + PLAYER_HEIGHT > LEVEL_HEIGHT) {
 		PosY = LEVEL_HEIGHT - PLAYER_HEIGHT;
-		mCollider.y = PosY;
+		mCollider.y = PosY + 7;
 	}
 
 	if (TouchesWall(mCollider, tiles)) {

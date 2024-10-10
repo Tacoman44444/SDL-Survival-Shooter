@@ -7,6 +7,7 @@
 #include "CollisionDetector.h"
 #include "Player.h"
 #include "GameOverState.h"
+#include "ScoreManager.h"
 
 class PlayState : public GameState {
 
@@ -21,5 +22,6 @@ class PlayState : public GameState {
 		Player* player;
 		Level currentLevel;
 		Uint32 startTime;
+		ScoreManager* scoreManager;
 		std::unique_ptr<World> world; 
 };

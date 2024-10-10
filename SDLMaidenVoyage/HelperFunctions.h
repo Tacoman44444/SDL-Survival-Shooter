@@ -29,4 +29,5 @@ namespace HelperFunctions {
 
 	int GenerateRandomSpawn(int startValue, int endValue);
 
+	bool RayCaster(const Coordinate& a, const Coordinate& b, const std::vector<Tile*>& tiles);
 }

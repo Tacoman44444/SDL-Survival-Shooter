@@ -8,6 +8,7 @@
 #include "Zombie.h"
 #include "UpdateContext.h"
 #include "ShotgunParticle.h"
+#include "TileData.h"
 
 class Zombie;
 
@@ -21,7 +22,7 @@ public:
 	Bullet(double PosX, double PosY, Shooter shooter, double TargetX, double TargetY);
 	~Bullet();
 
-	static const int PLAYER_FIRE_VELOCITY = 170;
+	static const int PLAYER_FIRE_VELOCITY = 30;
 	static const int SNIPER_FIRE_VELOCITY = 12;
 	static const int BULLET_DAMAGE = 15;
 	static const int TOTAL_SHOTGUN_PARTICLES = 10;
@@ -42,6 +43,7 @@ public:
 	void OnCollide(Zombie& zombie);
 
 	bool OutOfBounds();
+	bool HitsWall(const std::vector<Tile*>& tiles);
 
 	double PosX, PosY;
 	double DirX, DirY;
