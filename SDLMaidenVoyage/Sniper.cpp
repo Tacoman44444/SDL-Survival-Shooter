@@ -1,26 +1,23 @@
 #include "Sniper.h"
 
 Sniper::Sniper(const vec2& sniperPosition, EntitySpawner& spawner) {
-	sniperLoc.x = sniperPosition.x;
-	sniperLoc.y = sniperPosition.y;
-	this->sniperPosition.x = sniperPosition.x - SNIPER_WIDTH / 2;
-	this->sniperPosition.y = sniperPosition.y - SNIPER_HEIGHT / 2;
-	mCollider.x = sniperPosition.x - SNIPER_WIDTH / 2;
-	mCollider.y = sniperPosition.y - SNIPER_HEIGHT / 2;
-	mCollider.w = SNIPER_WIDTH;
-	mCollider.h = SNIPER_HEIGHT;
+	this->sniperPosition.x = sniperPosition.x;
+	this->sniperPosition.y = sniperPosition.y;
+	mCollider.x = sniperPosition.x + 20;
+	mCollider.y = sniperPosition.y + 20;
+	mCollider.w = 30;
+	mCollider.h = 30;
 	health = 50;
 	this->spawner = &spawner;
 	this->startOffset = 0;	//Remove this
 	lastHit = 0;
 }
 
-Sniper::Sniper(const Sniper& other) : sniperLoc(other.sniperLoc), sniperPosition(other.sniperPosition), health(other.health), mCollider(other.mCollider), startOffset(other.startOffset), spawner(other.spawner), lastHit(other.lastHit) {
+Sniper::Sniper(const Sniper& other) : sniperPosition(other.sniperPosition), health(other.health), mCollider(other.mCollider), startOffset(other.startOffset), spawner(other.spawner), lastHit(other.lastHit) {
 }
 
 Sniper& Sniper::operator=(const Sniper& other) {
 	if (this != &other) {
-		sniperLoc = other.sniperLoc;
 		sniperPosition = other.sniperPosition;
 		health = other.health;
 		mCollider = other.mCollider;
@@ -45,7 +42,7 @@ void Sniper::Render(UpdateContext& context) {
 
 void Sniper::Fire(const vec2& playerCoords) {
 	//Mix_PlayChannel(-1, gSniperFireSFX, 0);
-	Bullet* bullet = new Bullet(sniperPosition.x, sniperPosition.y, SNIPER, playerCoords.x, playerCoords.y);
+	Bullet* bullet = new Bullet(GetCenter().x, GetCenter().y, SNIPER, playerCoords.x, playerCoords.y);
 	spawner->SpawnBullet(bullet);
 }
 
@@ -65,7 +62,6 @@ bool Sniper::CooldownCompleted() {
 
 bool Sniper::IsDead() {
 	if (health <= 0) {
-		score++;
 		return true;
 	}
 	else {
@@ -98,6 +94,10 @@ void Sniper::OnCollide(Zombie& zombie) {
 
 SDL_Rect Sniper::GetCollider() {
 	return mCollider;
+}
+
+Coordinate Sniper::GetCenter() {
+	return Coordinate(mCollider.x + (mCollider.w / 2), mCollider.y + (mCollider.h / 2));
 }
 
 Coordinate Sniper::GetCoordinates() {

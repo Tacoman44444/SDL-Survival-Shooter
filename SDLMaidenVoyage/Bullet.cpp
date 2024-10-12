@@ -25,13 +25,11 @@ Bullet::Bullet(double PosX, double PosY, Shooter shooter, double TargetX, double
 	mCollider.w = 25;
 	mCollider.h = 25;
 	isDestroyed = false;
-	std::cout << "Bullet created!\n";
-	std::cout << "Shooter: " << shooter << std::endl;
 	
 }
 
 Bullet::~Bullet() {
-	std::cout << "Bullet Destroyed!\n";
+	//std::cout << "Bullet Destroyed!\n";
 }
 
 void Bullet::Update(UpdateContext& context, double timestep) {
@@ -54,11 +52,9 @@ void Bullet::Render(UpdateContext& context) {
 		bulletClip = { 530, 388, 60, 25 };
 	}
 	if (bulletTexture != &playerBulletTexture) {
-		std::cout << "WTF?????\n" << std::flush;
 		bulletTexture = &playerBulletTexture;
 	}
 	if (IsDead()) {
-		std::cout << "we are dead... why are we rendereing\n";
 	}
 	if (bulletTexture && bulletTexture->GetWidth() > 0 && bulletTexture->GetHeight() > 0) {
 		bulletTexture->Render(PosX - context.camera->GetCameraCoords().x, PosY - context.camera->GetCameraCoords().y);
@@ -75,8 +71,8 @@ bool Bullet::IsDead() {
 }
 
 void Bullet::Move() {
-	PosX += GetDirection().x * Bullet::PLAYER_FIRE_VELOCITY;
-	PosY += GetDirection().y * Bullet::PLAYER_FIRE_VELOCITY;
+	PosX += GetDirection().x * Bullet::FIRE_VELOCITY;
+	PosY += GetDirection().y * Bullet::FIRE_VELOCITY;
 	mCollider.x = PosX;
 	mCollider.y = PosY;
 }
@@ -130,12 +126,11 @@ bool Bullet::OutOfBounds() {
 bool Bullet::HitsWall(const std::vector<Tile*>& tiles) {
 
 	Coordinate bulletCoordsOnGrid = HelperFunctions::GetNodePointFromWorld(Coordinate(PosX, PosY));
-	//FIXFIXFIXFIXFIXFIXFIXFIXFIXFIsssssX
-	std::cout << "bullet coordinates converted to grid coordinates: " << bulletCoordsOnGrid << std::endl;
-	std::cout << "converted for tile vector: " << bulletCoordsOnGrid.y * TileData::TOTAL_TILES_ROW + bulletCoordsOnGrid.x << std::endl;
-
-	if (tiles[bulletCoordsOnGrid.y * TileData::TOTAL_TILES_ROW + bulletCoordsOnGrid.x]->getType() == 3) {
-		return true;
+	if (bulletCoordsOnGrid.y * TileData::TOTAL_TILES_ROW + bulletCoordsOnGrid.x >= 0 && bulletCoordsOnGrid.y * TileData::TOTAL_TILES_ROW + bulletCoordsOnGrid.x <= TileData::TOTAL_TILES) {
+		if (tiles[bulletCoordsOnGrid.y * TileData::TOTAL_TILES_ROW + bulletCoordsOnGrid.x]->getType() >= 3) {
+			return true;
+		}
 	}
+	
 	return false;
 }

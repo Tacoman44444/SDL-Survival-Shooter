@@ -25,11 +25,6 @@ inline const int SCREEN_HEIGHT = 810;
 inline const int TOTAL_SNIPER_SPAWNS = 13;
 inline const int TOTAL_ZOMBIE_SPAWNS = 13;
 
-inline const int MAX_SNIPERS = 3;
-inline const int MAX_ZOMBIES = 1;
-
-inline int score = 0;
-
 inline SDL_Window* gWindow = nullptr;
 inline SDL_Renderer* gRenderer = nullptr;
 inline SDL_Surface* gScreenSurface = nullptr;

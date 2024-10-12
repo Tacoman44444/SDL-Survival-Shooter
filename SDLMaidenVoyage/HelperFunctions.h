@@ -21,7 +21,9 @@ namespace HelperFunctions {
 
 	Coordinate GetNodePointFromWorld(const Coordinate& worldPoint);
 
-	std::vector<const Tile*> GetNeighbors(const Tile* tile, const Tile* tiles[]);
+	std::vector<const Tile*> GetNeighborsFOUR(const Tile* tile, const std::vector<Tile*>& tiles);
+
+	std::vector<const Tile*> GetNeighborsEIGHT(const Tile* tile, const std::vector<Tile*>& tiles);
 
 	std::vector<const Tile*> BreadthFirstSearch(const Coordinate& startPoint, const Coordinate& endPoint, std::vector<Tile*>& tiles);
 

@@ -3,7 +3,7 @@
 PlayState::PlayState(Level& level) {
 	currentLevel = level;
 	scoreManager = new ScoreManager();
-	std::cout << "The playstate constructor works" << std::endl;
+	std::cout << "New Playstate created" << std::endl;
 }
 
 void PlayState::Enter() 

@@ -63,7 +63,7 @@ namespace HelperFunctions {
 		return Coordinate(x, y);
 	}
 
-	std::vector<const Tile*> GetNeighbors(const Tile* tile, const std::vector<Tile*>& tiles) {
+	std::vector<const Tile*> GetNeighborsFOUR(const Tile* tile, const std::vector<Tile*>& tiles) {
 		std::vector<const Tile*> neighbors;
 		int tileIndex = tile->getIndex();
 
@@ -80,6 +80,39 @@ namespace HelperFunctions {
 		return neighbors;
 	}
 
+	std::vector<const Tile*> GetNeighborsEIGHT(const Tile* tile, const std::vector<Tile*>& tiles) {
+		std::vector<const Tile*> neighbors;
+		int tileIndex = tile->getIndex();
+
+		int kRIGHT = tileIndex + 1;
+		int kLEFT = tileIndex - 1;
+		int kUP = tileIndex - GRIDSIZE_Y;
+		int kDOWN = tileIndex + GRIDSIZE_Y;
+		int kTOPLEFT = tileIndex - GRIDSIZE_Y - 1;
+		int kTOPRIGHT = tileIndex - GRIDSIZE_Y + 1;
+		int kBOTTOMLEFT = tileIndex + GRIDSIZE_Y - 1;
+		int kBOTTOMRIGHT = tileIndex + GRIDSIZE_Y + 1;
+
+		if (kRIGHT < tiles.size() && tileIndex % GRIDSIZE_Y != GRIDSIZE_Y - 1) { neighbors.push_back(tiles[kRIGHT]); }
+		if (kLEFT >= 0 && tileIndex % GRIDSIZE_Y != 0) { neighbors.push_back(tiles[kLEFT]); }
+		if (kUP >= 0) { neighbors.push_back(tiles[kUP]); }
+		if (kDOWN < tiles.size()) { neighbors.push_back(tiles[kDOWN]); }
+		if (kTOPLEFT >= 0 && tileIndex % GRIDSIZE_Y != 0) {
+			neighbors.push_back(tiles[kTOPLEFT]);
+		}
+		if (kTOPRIGHT >= 0 && tileIndex % GRIDSIZE_Y != GRIDSIZE_Y - 1) {
+			neighbors.push_back(tiles[kTOPRIGHT]);
+		}
+		if (kBOTTOMLEFT < tiles.size() && tileIndex % GRIDSIZE_Y != 0) {
+			neighbors.push_back(tiles[kBOTTOMLEFT]);
+		}
+		if (kBOTTOMRIGHT < tiles.size() && tileIndex % GRIDSIZE_Y != GRIDSIZE_Y - 1) {
+			neighbors.push_back(tiles[kBOTTOMRIGHT]);
+		}
+		
+
+		return neighbors;
+	}
 
 	std::vector<const Tile*> BreadthFirstSearch(const Coordinate& startPoint, const Coordinate& endPoint, std::vector<Tile*>& tiles) {
 
@@ -113,7 +146,7 @@ namespace HelperFunctions {
 			}
 			frontier.pop();
 
-			for (auto next : GetNeighbors(currentNode, tiles)) {
+			for (auto next : GetNeighborsFOUR(currentNode, tiles)) {
 				if ((next->getType() == TileData::TILE_RED) && came_from.count(next) == 0) {
 					frontier.push(next);
 					came_from[next] = currentNode;
@@ -173,9 +206,12 @@ namespace HelperFunctions {
 		int err = dx - dy;
 
 		while (x0 != x1 || y0 != y1) {
-			if (tiles[y0 * TileData::TOTAL_TILES_ROW + x0]->getType() == 3) {
-				return false;
+			if (y0 * TileData::TOTAL_TILES_ROW + x0 >= 0 && y0 * TileData::TOTAL_TILES_ROW + x0 <= TileData::TOTAL_TILES) {
+				if (tiles[y0 * TileData::TOTAL_TILES_ROW + x0]->getType() >= 3) {
+					return false;
+				}
 			}
+			
 
 			int e2 = 2 * err;
 			if (e2 > -dy) {

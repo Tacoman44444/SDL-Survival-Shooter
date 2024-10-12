@@ -40,6 +40,7 @@ public:
 	vec2 GetCoordinates() const;
 	SDL_Rect GetCollider();
 	const SDL_Rect& GetColliderRef();
+	Coordinate GetCenter();
 
 	void OnCollide(Entity& entity);
 	void OnCollide(Bullet& bullet);

@@ -4,18 +4,15 @@ Zombie::Zombie(vec2 initialPosition) {	//change to vec2&
 	zombiePosition.x = initialPosition.x;
 	zombiePosition.y = initialPosition.y;
 	health = ZOMBIE_HEALTH;
-	mMainCollider.x = zombiePosition.x + 10;
-	mMainCollider.y = zombiePosition.y + 10;
-	mMainCollider.w = ZOMBIE_WIDTH - 20;
-	mMainCollider.h = ZOMBIE_HEIGHT - 10;
+	mMainCollider.x = zombiePosition.x + 20;
+	mMainCollider.y = zombiePosition.y + 20;
+	mMainCollider.w = ZOMBIE_WIDTH;
+	mMainCollider.h = ZOMBIE_HEIGHT;
 
 	lastHit = SDL_GetTicks();
 }
 
 void Zombie::Update( UpdateContext& context, double timestep) {
-	if (currentPath.empty()) {
-		UpdatePath(context.player->GetCoordinates(), context.tiles);
-	}
 	if (HelperFunctions::EntityInFrame(context.camera->cameraRect, zombiePosition)) {
 		LOS_Move(context.player, context.tiles);
 	}
@@ -24,7 +21,9 @@ void Zombie::Update( UpdateContext& context, double timestep) {
 
 void Zombie::Render(UpdateContext& context) {
 	vec2 cameraCoords = context.camera->GetCameraCoords();
-	ZombieTexture.Render(zombiePosition.x - cameraCoords.x, zombiePosition.y - cameraCoords.y);
+	vec2 direction = context.player->GetCoordinates() - zombiePosition;
+	double rotationAngle = ClockwiseAngle(vec2::right(), direction);
+	ZombieTexture.Render(zombiePosition.x - cameraCoords.x, zombiePosition.y - cameraCoords.y, NULL, rotationAngle);
 	SDL_SetRenderDrawColor(gRenderer, 0, 0, 0, SDL_ALPHA_OPAQUE);
 	SDL_Rect Box = { mMainCollider.x - cameraCoords.x, mMainCollider.y - cameraCoords.y, mMainCollider.w, mMainCollider.h };
 	SDL_RenderDrawRect(gRenderer, &Box);
@@ -60,11 +59,16 @@ void Zombie::Move(const Coordinate& playerCoordinates, std::vector<Tile*>& tiles
 */
 
 void Zombie::LOS_Move(Player* player, const std::vector<Tile*>& tiles) {
-	if (HelperFunctions::RayCaster(zombiePosition, player->GetCoordinates(), tiles)) {
+	if (HelperFunctions::RayCaster(GetCenter(), player->GetCoordinates(), tiles)) {
 		vec2 directionVector = direction(zombiePosition, player->GetCoordinates());
 		zombiePosition = zombiePosition + directionVector;
-		mMainCollider.x = zombiePosition.x + 10;
-		mMainCollider.y = zombiePosition.y + 10;
+		mMainCollider.x = zombiePosition.x + 20;
+		mMainCollider.y = zombiePosition.y + 20;
+		if (HitsWall(tiles)) {
+			zombiePosition = zombiePosition - directionVector;
+			mMainCollider.x = zombiePosition.x + 20;
+			mMainCollider.y = zombiePosition.y + 20;
+		}
 	}
 	if (currentPath.empty()) {
 		return;
@@ -86,8 +90,33 @@ void Zombie::UpdatePath(const Coordinate& playerCoordinates, std::vector<Tile*>&
 		std::cout << tile->GetCenter() << std::endl;
 	}
 	currentPath = path;
-	std::cout << "-----\n";
 }
+
+bool Zombie::HitsWall(const std::vector<Tile*>& tiles) {
+
+	Coordinate zombieCoordsOnGrid = HelperFunctions::GetNodePointFromWorld(Coordinate(zombiePosition.x, zombiePosition.y));
+
+	Tile* currentTile = tiles[zombieCoordsOnGrid.y * TileData::TOTAL_TILES_ROW + zombieCoordsOnGrid.x];
+
+	std::vector<const Tile*> neighboringTiles = HelperFunctions::GetNeighborsEIGHT(currentTile, tiles);
+
+	for(const Tile* tile : neighboringTiles) {
+		if (tile->getType() >= 3) {
+			if (HelperFunctions::CheckCollision(tile->getBox(), mMainCollider)) {
+				return true;
+			}
+		}
+	}
+	return false;
+	/*
+	if (tiles[zombieCoordsOnGrid.y * TileData::TOTAL_TILES_ROW + zombieCoordsOnGrid.x]->getType() >= 3) {
+		return true;
+	}
+	return false;
+	*/
+	
+}
+
 
 void Zombie::OnCollide(Entity& entity) {
 	if (Bullet* bullet = dynamic_cast<Bullet*>(&entity)) {
@@ -122,6 +151,10 @@ bool Zombie::CooldownCompleted() {
 
 Coordinate Zombie::GetCoordinates() {
 	return zombiePosition;
+}
+
+Coordinate Zombie::GetCenter() {
+	return Coordinate(mMainCollider.x + (mMainCollider.w / 2), mMainCollider.y + (mMainCollider.h / 2));
 }
 
 SDL_Rect Zombie::GetCollider() {

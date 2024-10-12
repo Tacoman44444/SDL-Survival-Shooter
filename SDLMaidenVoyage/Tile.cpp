@@ -70,7 +70,7 @@ bool SetTiles(std::vector<Tile*>& tiles, std::string mapFile) {
 		tilesLoaded = false;
 	}
 	else {
-		std::cout << "we here";
+		//std::cout << "we here";
 		for (int i = 0; i < TileData::TOTAL_TILES; ++i) {
 			int tileType = -1;
 
@@ -98,7 +98,7 @@ bool SetTiles(std::vector<Tile*>& tiles, std::string mapFile) {
 				y += TileData::TILE_HEIGHT;
 			}
 
-			std::cout << i << "\n";
+			//std::cout << i << "\n";
 		}
 		if (tilesLoaded) {
 			gTileClips[TileData::TILE_RED].x = 0;

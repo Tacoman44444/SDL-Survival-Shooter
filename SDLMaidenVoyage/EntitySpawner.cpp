@@ -16,13 +16,11 @@ void EntitySpawner::SpawnSniper(std::vector<vec2>& activeSniperLocations) {
 	
 	Coordinate spawnPoint = Coordinate(-100, -100);
 	do
-	{
-		std::cout << "spawn sniper while loop running\n";
+	{	
 		int spawnIndex = HelperFunctions::GenerateRandomSpawn(0, TOTAL_SNIPER_SPAWNS);
 		spawnPoint = sniperSpawnPoints[spawnIndex];
 	} while (std::find(activeSniperLocations.begin(), activeSniperLocations.end(), spawnPoint) != activeSniperLocations.end());
 
-	std::cout << "code extis out of spawnsniper while loop with spawn point; " << spawnPoint << std::endl;
 	Sniper* sniper = new Sniper(spawnPoint, *this);
 	activeSniperLocations.push_back(spawnPoint);
 	world->AddEntity(sniper);
@@ -30,7 +28,6 @@ void EntitySpawner::SpawnSniper(std::vector<vec2>& activeSniperLocations) {
 }
 
 void EntitySpawner::SpawnBullet(Bullet* bullet) {
-	std::cout << "spawn bullet gets called" << std::endl;
 
 	world->AddEntity(bullet);
 }

@@ -48,7 +48,7 @@ bool Init() {
 bool LoadMedia() {
 	bool success = true;
 
-	if (!playerTexture.LoadFromFile("Assets/pirate.png")) {
+	if (!playerTexture.LoadFromFile("Assets/mainCharacter.png")) {
 		std::cout << "could not load player image \n";
 		success = false;
 	}
@@ -95,10 +95,6 @@ bool LoadMedia() {
 		}
 		if (!gPressPlayTexture.LoadFromRenderedText("PLAY", SDL_Color{ 136, 0, 21 })) {
 			std::cout << "failed to load PRESS PLAY texture \n";
-			success = false;
-		}
-		if (!gHighScoreTexture.LoadFromRenderedText("Score: " + std::to_string(score), SDL_Color{ 128, 128, 128 })) {
-			std::cout << "could not loadfromrenderedtext: high score";
 			success = false;
 		}
 		if (!gPlayerHealthTexture.LoadFromRenderedText("Health: 100", SDL_Color{ 180, 0, 0 })) {

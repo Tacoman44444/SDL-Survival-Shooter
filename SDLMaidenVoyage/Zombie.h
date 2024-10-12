@@ -17,8 +17,8 @@ struct UpdateContext;
 class Zombie : public Entity {
 public:
 
-	static const int ZOMBIE_WIDTH = 50;
-	static const int ZOMBIE_HEIGHT = 70;
+	static const int ZOMBIE_WIDTH = 40;
+	static const int ZOMBIE_HEIGHT = 40;
 	static const int ZOMBIE_HEALTH = 70;
 
 	static const int ZOMBIE_DAMAGE = 15;
@@ -33,6 +33,8 @@ public:
 	void TakeDamage(int damage);
 	void LOS_Move(Player* player, const std::vector<Tile*>& tiles);
 	void UpdatePath(const Coordinate& playerCoordinates, std::vector<Tile*>& tiles);
+	bool HitsWall(const std::vector<Tile*>& tiles);
+
 
 
 	void OnCollide(Entity& entity);
@@ -45,6 +47,7 @@ public:
 
 
 	Coordinate GetCoordinates();
+	Coordinate GetCenter();
 	SDL_Rect GetCollider();
 	SDL_Rect GetMainCollider();
 

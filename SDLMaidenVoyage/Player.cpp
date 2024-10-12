@@ -5,10 +5,10 @@ Player::Player() {
 	PosY = LEVEL_HEIGHT / 2;
 	VelX = 0;
 	VelY = 0;
-	mCollider.h = PLAYER_HEIGHT - 10;
-	mCollider.w = PLAYER_WIDTH;
-	mCollider.x = PosX - 5;
-	mCollider.y = PosY - 5;
+	mCollider.h = 40;
+	mCollider.w = 40;
+	mCollider.x = PosX + 10;
+	mCollider.y = PosY + 10;
 	health = PLAYER_HEALTH;
 	fireThisFrame = false;
 	startTime = SDL_GetTicks();
@@ -87,26 +87,26 @@ void Player::Update(UpdateContext& context, double timestep) {
 
 void Player::Move(std::vector<Tile*> tiles, double timestep) {
 	PosX += VelX;
-	mCollider.x = PosX + 7;
+	mCollider.x = PosX + 10;
 	if (PosX < 0) {
 		PosX = 0;
-		mCollider.x = PosX + 7;
+		mCollider.x = PosX + 10;
 	}
 	else if (PosX + PLAYER_WIDTH > LEVEL_WIDTH) {
 		PosX = LEVEL_WIDTH - PLAYER_WIDTH;
-		mCollider.x = PosX + 7;
+		mCollider.x = PosX + 10;
 	}
 
 
 	PosY += VelY;
-	mCollider.y = PosY + 7;
+	mCollider.y = PosY + 10;
 	if (PosY < 0) {
 		PosY = 0;
-		mCollider.y = PosY + 7;
+		mCollider.y = PosY + 10;
 	}
 	else if (PosY + PLAYER_HEIGHT > LEVEL_HEIGHT) {
 		PosY = LEVEL_HEIGHT - PLAYER_HEIGHT;
-		mCollider.y = PosY + 7;
+		mCollider.y = PosY +10;
 	}
 
 	if (TouchesWall(mCollider, tiles)) {
@@ -119,12 +119,13 @@ void Player::Move(std::vector<Tile*> tiles, double timestep) {
 
 void Player::Fire() {
 	Mix_PlayChannel(-1, gPlayerFireSFX, 0);
-	Bullet* bullet = new Bullet(double(PosX + PLAYER_WIDTH / 4), double(PosY + PLAYER_HEIGHT / 4), PLAYER, rotationVector.x, rotationVector.y);
+	Bullet* bullet = new Bullet(GetCenter().x, GetCenter().y, PLAYER, rotationVector.x, rotationVector.y);
 	spawner->SpawnBullet(bullet);
 }
 
 void Player::Render(UpdateContext& context) {
-	playerTexture.Render(PosX - context.camera->GetCameraCoords().x, PosY - context.camera->GetCameraCoords().y);
+	double rotationAngle = ClockwiseAngle(vec2::right(), rotationVector - Coordinate(PosX, PosY));
+	playerTexture.Render(PosX - context.camera->GetCameraCoords().x, PosY - context.camera->GetCameraCoords().y, NULL, rotationAngle);
 }
 
 void Player::TakeDamage(int damage) {
@@ -156,6 +157,10 @@ SDL_Rect Player::GetCollider() {
 
 const SDL_Rect& Player::GetColliderRef() {
 	return mCollider;
+}
+
+Coordinate Player::GetCenter() {
+	return Coordinate(mCollider.x + (mCollider.w / 2), mCollider.y + (mCollider.h / 2));
 }
 
 void Player::OnCollide(Entity& entity) {

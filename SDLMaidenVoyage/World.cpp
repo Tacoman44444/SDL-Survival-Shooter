@@ -19,7 +19,6 @@ World::World(Level& level, ScoreManager* scoreManager) : spawner(*this), current
 }
 
 void World::Initialise() {		//this is where level specific media should be initialized
-	std::cout << "we are here";
 	if (!SetTiles(context->tiles, currentLevel.mapFile)) {
 		std::cout << "FAILED TO LOAD TILES";
 		//exit game
@@ -40,7 +39,6 @@ void World::Update(double timestep) {
 
 	for (int i = numEntities - 1; i >= 0; i--) {
 		if (entities[i]->IsDead()) {
-			std::cout << "why the fuck is my bullet dead???\n";
 			if (Sniper* sniper = dynamic_cast<Sniper*>(entities[i])) {
 				_scoreManager->IncrementScore();
 				numSnipers--;
@@ -51,6 +49,7 @@ void World::Update(double timestep) {
 			}
 			else if (Zombie* zombie = dynamic_cast<Zombie*>(entities[i])) {
 				_scoreManager->IncrementScore();
+				std::cout << "bruv" << std::endl;
 				numZombies--;
 			}
 
@@ -67,13 +66,13 @@ void World::Update(double timestep) {
 	HandleCollisions();
 	
 	if (numSnipers < 3) {
-		std::cout << "spawing numsnipers\n";
+		//std::cout << "spawing numsnipers\n";
 		spawner.SpawnSniper(activeSniperLocations);
 		numSnipers++;
 	}
 
-	if (numZombies < 7) {
-		std::cout << "spawning numzombies\n";
+	if (numZombies < 5) {
+		//std::cout << "spawning numzombies\n";
 		spawner.SpawnZombie();
 		numZombies++;
 	}
@@ -89,7 +88,7 @@ void World::Render() {
 	int i = 1;
 	for (Entity* entity : entities) {
 		if (entity == nullptr) {
-			std::cout << "the fuck??????\n";
+
 		}
 		else {
 			entity->Render(*context);
