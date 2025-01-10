@@ -14,7 +14,7 @@ public:
 	EntitySpawner(World& world);
 
 	void SpawnZombie();
-	void SpawnSniper(std::vector<vec2>& activeSniperLocations);
+	void SpawnSniper();
 	void SpawnBullet(Bullet* bullet);
 
 	void FreeSniperLocation(const vec2& sniperLocation);

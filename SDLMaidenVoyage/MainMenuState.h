@@ -12,6 +12,7 @@ class MainMenuState : public GameState {
 
 	public:
 		MainMenuState();
+		~MainMenuState();
 		void Enter() override;
 		GameState* HandleEvent(SDL_Event& e) override;
 		void Update() override;

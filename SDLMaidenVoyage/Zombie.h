@@ -19,12 +19,10 @@ public:
 
 	static const int ZOMBIE_WIDTH = 40;
 	static const int ZOMBIE_HEIGHT = 40;
-	static const int ZOMBIE_HEALTH = 70;
+	int ZOMBIE_DAMAGE;
 
-	static const int ZOMBIE_DAMAGE = 15;
-
-	Zombie(vec2 initialPosition); //change to vec2& after debugging
-
+	Zombie(vec2 initialPosition, float velocity, int health, int damage); //change to vec2& after debugging
+	
 	void Update(UpdateContext& context, double timestep);
 	void Render(UpdateContext& context);
 	bool IsDead();
@@ -55,8 +53,10 @@ public:
 private:
 	vec2 zombiePosition;
 	vec2 targetPosition;
+	float zombieVelocity;
 	Uint32 lastHit;
 	std::vector<const Tile*> currentPath;
-	int health;
+	int zombieHealth;
 	SDL_Rect mMainCollider;
+
 };

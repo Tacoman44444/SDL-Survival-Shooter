@@ -22,10 +22,10 @@ Bullet::Bullet(double PosX, double PosY, Shooter shooter, double TargetX, double
 	
 	mCollider.x = PosX;
 	mCollider.y = PosY;
-	mCollider.w = 25;
-	mCollider.h = 25;
+	mCollider.w = 16;
+	mCollider.h = 16;
 	isDestroyed = false;
-	
+
 }
 
 Bullet::~Bullet() {
@@ -35,9 +35,6 @@ Bullet::~Bullet() {
 void Bullet::Update(UpdateContext& context, double timestep) {
 	Move();
 	if (OutOfBounds()) {
-		isDestroyed = true;
-	}
-	if (HitsWall(context.tiles)) {
 		isDestroyed = true;
 	}
 
@@ -55,9 +52,11 @@ void Bullet::Render(UpdateContext& context) {
 		bulletTexture = &playerBulletTexture;
 	}
 	if (IsDead()) {
+
 	}
 	if (bulletTexture && bulletTexture->GetWidth() > 0 && bulletTexture->GetHeight() > 0) {
-		bulletTexture->Render(PosX - context.camera->GetCameraCoords().x, PosY - context.camera->GetCameraCoords().y);
+		double rotationAngle = ClockwiseAngle(vec2::up(), bulletDirection.MakeUnitVector());
+		bulletTexture->Render(PosX - context.camera->GetCameraCoords().x, PosY - context.camera->GetCameraCoords().y, NULL, rotationAngle);
 	}
 	else {
 		std::cerr << "Invalid texture state: Width: "
@@ -116,15 +115,15 @@ void Bullet::OnCollide(Sniper& sniper) {
 }
 
 bool Bullet::OutOfBounds() {
-	SDL_Rect level = { 0, 0, LEVEL_WIDTH, LEVEL_HEIGHT };
+	SDL_Rect level = { 0, 0, 2000, 2000 };
 	if (!HelperFunctions::EntityInFrame(level, Coordinate(PosX, PosY))) {
+		std::cout << "went out of bounds \n";
 		return true;
 	}
 	return false;
 }
 
 bool Bullet::HitsWall(const std::vector<Tile*>& tiles) {
-
 	Coordinate bulletCoordsOnGrid = HelperFunctions::GetNodePointFromWorld(Coordinate(PosX, PosY));
 	if (bulletCoordsOnGrid.y * TileData::TOTAL_TILES_ROW + bulletCoordsOnGrid.x >= 0 && bulletCoordsOnGrid.y * TileData::TOTAL_TILES_ROW + bulletCoordsOnGrid.x <= TileData::TOTAL_TILES) {
 		if (tiles[bulletCoordsOnGrid.y * TileData::TOTAL_TILES_ROW + bulletCoordsOnGrid.x]->getType() >= 3) {

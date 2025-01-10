@@ -16,6 +16,7 @@ public:
 	bool LoadFromFile(std::string path);
 	bool LoadFromFileScaled(std::string path, int width, int height);
 	bool LoadFromRenderedText(std::string text, SDL_Color color);
+	bool LoadFromRenderedText(std::string text, SDL_Color color, TTF_Font* font);
 	void Render(int x, int y, SDL_Rect* clip = NULL, double angle = 0, SDL_Point* center = NULL, SDL_RendererFlip flip = SDL_FLIP_NONE);
 	void free();
 
@@ -44,5 +45,8 @@ extern LTexture gHighScoreTexture;
 extern LTexture gGameOverBackgroundTexture;
 extern LTexture gPlayerHealthTexture;
 extern LTexture gShotgunParticleTexture;
+extern LTexture gWaveNumberTextTexture;
+extern LTexture gWaveTimerTextTexture;
+extern LTexture gUpgradeButtonTexture;
 
 extern LTexture gTileTexture;

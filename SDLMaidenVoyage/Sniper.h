@@ -26,7 +26,7 @@ public:
 
 	const int SNIPER_ROF = 3;
 
-	Sniper(const vec2& sniperPosition, EntitySpawner& spawner);
+	Sniper(const vec2& sniperPosition, EntitySpawner& spawner, float velocity, int health);
 	Sniper(const Sniper& other);
 	Sniper& operator=(const Sniper& other);
 
@@ -37,6 +37,8 @@ public:
 	bool CooldownCompleted();
 	void TakeDamage(int damage);
 	bool IsDead();
+
+	void LOS_Move(Player* player, const std::vector<Tile*>& tiles);
 
 	void OnCollide(Entity& entity);
 
@@ -51,7 +53,8 @@ private:
 	EntitySpawner* spawner;
 	Uint32 lastHit;
 	vec2 sniperPosition;
-	int health;
+	int sniperHealth;
+	float sniperSpeed;
 	SDL_Rect mCollider;
 	int startOffset;
 };

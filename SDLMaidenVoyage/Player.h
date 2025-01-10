@@ -20,13 +20,11 @@ class EntitySpawner;
 class Player : public Entity {
 
 public:
-	const int PLAYER_WIDTH = 30;
+	const int PLAYER_WIDTH = 70;
 	const int PLAYER_HEIGHT = 70;
-	const int PLAYER_VELOCITY = 10; //640 pixels travelled per second
-	const int PLAYER_HEALTH = 100;
-	const double RATE_OF_FIRE = 0.2;
 
-	Player();
+	Player(int playerVelocity, int playerHealth, int rateOfFire, bool lifeStealEnabled, bool secondLifeEnabled);
+	~Player();
 	void SetSpawner(EntitySpawner& spawner);
 	void HandleEvent(SDL_Event& e, const vec2& cameraCoords);
 	void Update(UpdateContext& context, double timestep);
@@ -34,13 +32,15 @@ public:
 	void Fire();
 	void Render(UpdateContext& context);
 	void TakeDamage(int damage);
-	void DisplayHealth();
+	void DisplayHealth(int x, int y);
 	int GetHealth();
 	void ResetHealth();
 	vec2 GetCoordinates() const;
 	SDL_Rect GetCollider();
 	const SDL_Rect& GetColliderRef();
 	Coordinate GetCenter();
+
+
 
 	void OnCollide(Entity& entity);
 	void OnCollide(Bullet& bullet);
@@ -54,9 +54,14 @@ private:
 	double PosX, PosY;
 	double VelX, VelY;
 	int health;
-	Uint32 startTime;
+	int PLAYER_VELOCITY;
+	int PLAYER_HEALTH;
+	int RATE_OF_FIRE;
+	Uint32 timeOfLastFire;
 	vec2 rotationVector = vec2(0, -1);
 	bool rotated = false;
 	bool fireThisFrame;
 	SDL_Rect mCollider;
+	bool _lifeStealEnabled;
+	bool _secondLifeEnabled;
 };

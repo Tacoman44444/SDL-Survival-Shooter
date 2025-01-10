@@ -29,6 +29,7 @@
     <ClCompile Include="SetupHelper.cpp" />
     <ClCompile Include="ShotgunParticle.cpp" />
     <ClCompile Include="StateManager.cpp" />
+    <ClCompile Include="Wave.cpp" />
     <ClCompile Include="World.cpp" />
     <ClCompile Include="Game.cpp" />
     <ClCompile Include="GameData.h" />
@@ -49,6 +50,7 @@
     <ClCompile Include="Zombie.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="Attributes.h" />
     <ClInclude Include="Bullet.h" />
     <ClInclude Include="Camera.h" />
     <ClInclude Include="CollisionDetector.h" />
@@ -78,6 +80,7 @@
     <ClInclude Include="UpdateContext.h" />
     <ClInclude Include="vec2.h" />
     <ClInclude Include="Player.h" />
+    <ClInclude Include="Wave.h" />
     <ClInclude Include="World.h" />
     <ClInclude Include="Zombie.h" />
   </ItemGroup>

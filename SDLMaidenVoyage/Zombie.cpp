@@ -1,22 +1,21 @@
 #include "Zombie.h"
 
-Zombie::Zombie(vec2 initialPosition) {	//change to vec2&
+Zombie::Zombie(vec2 initialPosition, float velocity, int health, int damage) {	//change to vec2&
 	zombiePosition.x = initialPosition.x;
 	zombiePosition.y = initialPosition.y;
-	health = ZOMBIE_HEALTH;
+	zombieVelocity = velocity;
+	zombieHealth = health;
 	mMainCollider.x = zombiePosition.x + 20;
 	mMainCollider.y = zombiePosition.y + 20;
 	mMainCollider.w = ZOMBIE_WIDTH;
 	mMainCollider.h = ZOMBIE_HEIGHT;
+	ZOMBIE_DAMAGE = damage;
 
 	lastHit = SDL_GetTicks();
 }
 
-void Zombie::Update( UpdateContext& context, double timestep) {
-	if (HelperFunctions::EntityInFrame(context.camera->cameraRect, zombiePosition)) {
-		LOS_Move(context.player, context.tiles);
-	}
-	
+void Zombie::Update(UpdateContext& context, double timestep) {
+	LOS_Move(context.player, context.tiles);
 }
 
 void Zombie::Render(UpdateContext& context) {
@@ -30,7 +29,7 @@ void Zombie::Render(UpdateContext& context) {
 }
 
 bool Zombie::IsDead() {
-	if (health <= 0) {
+	if (zombieHealth <= 0) {
 		return true;
 	}
 	else {
@@ -39,7 +38,7 @@ bool Zombie::IsDead() {
 }
 
 void Zombie::TakeDamage(int damage) {
-	health -= damage;
+	zombieHealth -= damage;
 }
 
 /*
@@ -61,14 +60,9 @@ void Zombie::Move(const Coordinate& playerCoordinates, std::vector<Tile*>& tiles
 void Zombie::LOS_Move(Player* player, const std::vector<Tile*>& tiles) {
 	if (HelperFunctions::RayCaster(GetCenter(), player->GetCoordinates(), tiles)) {
 		vec2 directionVector = direction(zombiePosition, player->GetCoordinates());
-		zombiePosition = zombiePosition + directionVector;
+		zombiePosition = zombiePosition + directionVector * zombieVelocity;
 		mMainCollider.x = zombiePosition.x + 20;
 		mMainCollider.y = zombiePosition.y + 20;
-		if (HitsWall(tiles)) {
-			zombiePosition = zombiePosition - directionVector;
-			mMainCollider.x = zombiePosition.x + 20;
-			mMainCollider.y = zombiePosition.y + 20;
-		}
 	}
 	if (currentPath.empty()) {
 		return;
@@ -79,16 +73,11 @@ void Zombie::LOS_Move(Player* player, const std::vector<Tile*>& tiles) {
 	if (currentPath.empty()) {
 		return;
 	}
-	
-	//zombiePosition = currentPath[0]->GetCenter();
 }
 
 void Zombie::UpdatePath(const Coordinate& playerCoordinates, std::vector<Tile*>& tiles) {
 	vec2 startVector = zombiePosition;
 	std::vector<const Tile*> path = HelperFunctions::BreadthFirstSearch(startVector, playerCoordinates, tiles);
-	for (const Tile* tile : path) {
-		std::cout << tile->GetCenter() << std::endl;
-	}
 	currentPath = path;
 }
 
@@ -126,7 +115,7 @@ void Zombie::OnCollide(Entity& entity) {
 
 void Zombie::OnCollide(Bullet& bullet) {
 	if (bullet.shooter == PLAYER) {
-		TakeDamage(10);	//player bullet damage value
+		TakeDamage(bullet.PLAYER_BULLET_DAMAGE);	//player bullet damage value
 	}
 }
 

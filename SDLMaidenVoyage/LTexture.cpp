@@ -15,7 +15,9 @@ LTexture gHighScoreTexture;
 LTexture gGameOverBackgroundTexture;
 LTexture gPlayerHealthTexture;
 LTexture gShotgunParticleTexture;
-
+LTexture gWaveNumberTextTexture;
+LTexture gWaveTimerTextTexture;
+LTexture gUpgradeButtonTexture;
 
 LTexture gTileTexture;
 
@@ -55,6 +57,26 @@ bool LTexture::LoadFromFile(std::string path) {
 bool LTexture::LoadFromRenderedText(std::string text, SDL_Color color) {
 	free();
 	SDL_Surface* loadedSurface = TTF_RenderText_Solid(gFont, text.c_str(), color);
+	if (loadedSurface == NULL) {
+		std::cout << "could not load ttf text" << text << ", TTF error: " << TTF_GetError() << "\n";
+	}
+	else {
+		mTexture = SDL_CreateTextureFromSurface(gRenderer, loadedSurface);
+		if (mTexture == NULL) {
+			std::cout << "could not create texture from surface. SDL Error: " << SDL_GetError() << "\n";
+		}
+		else {
+			mWidth = loadedSurface->w;
+			mHeight = loadedSurface->h;
+		}
+		SDL_FreeSurface(loadedSurface);
+	}
+	return mTexture != NULL;
+}
+
+bool LTexture::LoadFromRenderedText(std::string text, SDL_Color color, TTF_Font* font) {
+	free();
+	SDL_Surface* loadedSurface = TTF_RenderText_Solid(font, text.c_str(), color);
 	if (loadedSurface == NULL) {
 		std::cout << "could not load ttf text" << text << ", TTF error: " << TTF_GetError() << "\n";
 	}

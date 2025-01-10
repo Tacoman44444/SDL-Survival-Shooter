@@ -9,7 +9,7 @@
 class GameOverState : public GameState {
 
 	public:
-		GameOverState(Level& level, ScoreManager* scoreManager);
+		GameOverState(Level& level, ScoreManager* scoreManager, Wave* waveInfo, std::string gameOverText);
 		~GameOverState();
 		void Enter() override;
 		GameState* HandleEvent(SDL_Event& e) override;
@@ -19,4 +19,9 @@ class GameOverState : public GameState {
 	private:
 		Level previousLevel;
 		ScoreManager* _scoreManager;
+		Wave* _waveInfo;
+		std::string _gameOverText;
+		LTexture wavesStatusTexture;
+		LTexture mainMenuTexture;
+		LTexture restartTexture;
 };

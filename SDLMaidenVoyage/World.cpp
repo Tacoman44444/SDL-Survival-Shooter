@@ -1,12 +1,13 @@
 #include "World.h"
 
-World::World(Level& level, ScoreManager* scoreManager) : spawner(*this), currentLevel(level)
+World::World(Level& level, ScoreManager* scoreManager, Wave* waveInfo) : spawner(*this), currentLevel(level)
 
 {
 	context = new UpdateContext;
 	camera = new Camera();
-	player = new Player();
+	player = new Player(waveInfo->playerSpeed, waveInfo->playerHealth, waveInfo->weaponROF, waveInfo->lifeStealEnabled, waveInfo->secondLifeEnabled);
 	_scoreManager = scoreManager;
+	_waveInfo = waveInfo;
 	context->camera = camera;
 	context->player = player;
 	entities.push_back(player);
@@ -16,6 +17,21 @@ World::World(Level& level, ScoreManager* scoreManager) : spawner(*this), current
 	collisionDetector = CollisionDetector();
 	std::cout << "The world constructor gets called" << std::endl;
 	
+	gWaveNumberTextTexture.LoadFromRenderedText("Wave " + std::to_string(waveInfo->waveNumber), SDL_Color{ 180, 0, 0 });
+
+	DEBUG_OUTPUT_PLAYER_COORDINATES();
+}
+
+World::~World() {
+	if (player != nullptr) {
+		delete player;
+	}
+	if (camera != nullptr) {
+		delete camera;
+	}
+	if (context != nullptr) {
+		delete context;
+	}
 }
 
 void World::Initialise() {		//this is where level specific media should be initialized
@@ -23,8 +39,15 @@ void World::Initialise() {		//this is where level specific media should be initi
 		std::cout << "FAILED TO LOAD TILES";
 		//exit game
 	}
-	
 	player->SetSpawner(spawner);
+	DEBUG_OUTPUT_PLAYER_COORDINATES();
+}
+
+bool World::Dead() {
+	if (player->GetHealth() <= 0) {
+		return true;
+	}
+	return false;
 }
 
 void World::HandleInput(SDL_Event& e) {
@@ -53,9 +76,13 @@ void World::Update(double timestep) {
 				numZombies--;
 			}
 
-			
-			delete entities[i];
-			entities.erase(entities.begin() + i);
+			if (Player* player = dynamic_cast<Player*>(entities[i])) {
+				DEBUG_OUTPUT_PLAYER_HEALTH();
+			}
+			else {
+				delete entities[i];
+				entities.erase(entities.begin() + i);
+			}
 		}
 	}
 
@@ -67,7 +94,7 @@ void World::Update(double timestep) {
 	
 	if (numSnipers < 3) {
 		//std::cout << "spawing numsnipers\n";
-		spawner.SpawnSniper(activeSniperLocations);
+		spawner.SpawnSniper();
 		numSnipers++;
 	}
 
@@ -97,6 +124,8 @@ void World::Render() {
 		
 	}
 	_scoreManager->DisplayScore(20, 20);
+	player->DisplayHealth(20, 65);
+	DisplayWaveInfo();
 }
 
 void World::AddEntity(Entity* entity) {
@@ -110,4 +139,20 @@ void World::HandleCollisions() {
 
 Player* World::GetPlayer() {
 	return player;
+}
+
+Wave* World::GetWaveInfo() {
+	return _waveInfo;
+}
+
+void World::DisplayWaveInfo() {
+	gWaveNumberTextTexture.Render(1200, 20);
+}
+
+void World::DEBUG_OUTPUT_PLAYER_COORDINATES() {
+	std::cout << "player coordinates: " << player->GetCoordinates() << std::endl;
+}
+
+void World::DEBUG_OUTPUT_PLAYER_HEALTH() {
+	std::cout << "player health: " << player->GetHealth() << std::endl;
 }

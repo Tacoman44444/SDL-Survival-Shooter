@@ -53,7 +53,7 @@ bool LoadMedia() {
 		success = false;
 	}
 
-	if (!sniperBulletTexture.LoadFromFile("Assets/pibullet.png")) {
+	if (!sniperBulletTexture.LoadFromFile("Assets/starbullet.png")) {
 		std::cout << "could not load sniper bullet image \n";
 		success = false;
 	}
@@ -71,19 +71,25 @@ bool LoadMedia() {
 		std::cout << "could not load zombie image \n";
 		success = false;
 	}
-	if (!gMainMenuTexture.LoadFromFile("Assets/pirate_background.png")) {
-		std::cout << "cound not load main menu image\n";
-		success = false;
-	}
 	if (!gGameOverBackgroundTexture.LoadFromFile("Assets/skull and crossbones.png")) {
 		std::cout << "could not load Game Over Background Texture\n";
 		success = false;
 	}
-	if (!gShotgunParticleTexture.LoadFromFile("Assets/ShotgunParticle.png")) {
-		std::cout << "could not load Shotgun Particle texture\n";
+	if (!gUpgradeButtonTexture.LoadFromFile("Assets/upgrade_button.png")) {
+		std::cout << "could not load Upgrade Button texture\n";
 		success = false;
 	}
-	gFont = TTF_OpenFont("Assets/joystix monospace.otf", 40);
+	gFontLARGE = TTF_OpenFont("Assets/joystix monospace.otf", 54);
+	if (gFontLARGE == NULL) {
+		std::cout << "failed to load font from file\n";
+		success = false;
+	}
+	gFontSMALL = TTF_OpenFont("Assets/joystix monospace.otf", 24);
+	if (gFontLARGE == NULL) {
+		std::cout << "failed to load font from file\n";
+		success = false;
+	}
+	gFont = TTF_OpenFont("Assets/joystix monospace.otf", 32);
 	if (gFont == NULL) {
 		std::cout << "failed to load font from file\n";
 		success = false;
@@ -93,7 +99,7 @@ bool LoadMedia() {
 			std::cout << "failed to load YOU LOSE texture\n";
 			success = false;
 		}
-		if (!gPressPlayTexture.LoadFromRenderedText("PLAY", SDL_Color{ 136, 0, 21 })) {
+		if (!gPressPlayTexture.LoadFromRenderedText("PLAY", SDL_Color{ 255, 255, 255 })) {
 			std::cout << "failed to load PRESS PLAY texture \n";
 			success = false;
 		}
@@ -107,7 +113,7 @@ bool LoadMedia() {
 		std::cout << "Failed to load tile set testure \n";
 		success = false;
 	}
-	gMusic = Mix_LoadMUS("Assets/music.wav");
+	gMusic = Mix_LoadMUS("Assets/background_sound.wav");
 	if (gMusic == NULL) {
 		std::cout << "Failed to load music! SDL mixer error: " << Mix_GetError() << "\n";
 		success = false;
@@ -119,8 +125,13 @@ bool LoadMedia() {
 		success = false;
 	}
 
-	gPlayerFireSFX = Mix_LoadWAV("Assets/playerfire.mp3");
+	gPlayerFireSFX = Mix_LoadWAV("Assets/Gunshot.mp3");
 	if (gPlayerFireSFX == NULL) {
+		success = false;
+	}
+
+	gGotHitSFX = Mix_LoadWAV("Assets/hitsfx.wav");
+	if (gGotHitSFX == NULL) {
 		success = false;
 	}
 

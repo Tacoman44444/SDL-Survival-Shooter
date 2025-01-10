@@ -1,25 +1,26 @@
 #include "Sniper.h"
 
-Sniper::Sniper(const vec2& sniperPosition, EntitySpawner& spawner) {
+Sniper::Sniper(const vec2& sniperPosition, EntitySpawner& spawner, float velocity, int health) {
 	this->sniperPosition.x = sniperPosition.x;
 	this->sniperPosition.y = sniperPosition.y;
 	mCollider.x = sniperPosition.x + 20;
 	mCollider.y = sniperPosition.y + 20;
-	mCollider.w = 30;
-	mCollider.h = 30;
-	health = 50;
+	mCollider.w = 50;
+	mCollider.h = 50;
+	sniperHealth = health;
+	sniperSpeed = velocity;
 	this->spawner = &spawner;
 	this->startOffset = 0;	//Remove this
 	lastHit = 0;
 }
 
-Sniper::Sniper(const Sniper& other) : sniperPosition(other.sniperPosition), health(other.health), mCollider(other.mCollider), startOffset(other.startOffset), spawner(other.spawner), lastHit(other.lastHit) {
+Sniper::Sniper(const Sniper& other) : sniperPosition(other.sniperPosition), sniperHealth(other.sniperHealth), mCollider(other.mCollider), startOffset(other.startOffset), spawner(other.spawner), lastHit(other.lastHit) {
 }
 
 Sniper& Sniper::operator=(const Sniper& other) {
 	if (this != &other) {
 		sniperPosition = other.sniperPosition;
-		health = other.health;
+		sniperHealth = other.sniperHealth;
 		mCollider = other.mCollider;
 		startOffset = other.startOffset;
 		spawner = other.spawner;
@@ -29,8 +30,13 @@ Sniper& Sniper::operator=(const Sniper& other) {
 }
 
 void Sniper::Update(UpdateContext& context, double timestep) {
-	if (CooldownCompleted()) {
-		Fire(context.player->GetCoordinates());
+	if (HelperFunctions::EntityInFrame(context.camera->cameraRect, sniperPosition, 100)) {
+		if (CooldownCompleted()) {
+			Fire(context.player->GetCoordinates());
+		}
+	}
+	else {
+		LOS_Move(context.player, context.tiles);
 	}
 }
 
@@ -46,10 +52,8 @@ void Sniper::Fire(const vec2& playerCoords) {
 	spawner->SpawnBullet(bullet);
 }
 
-
-
 void Sniper::TakeDamage(int damage) {
-	health -= damage;
+	sniperHealth -= damage;
 }
 
 bool Sniper::CooldownCompleted() {
@@ -61,12 +65,41 @@ bool Sniper::CooldownCompleted() {
 }
 
 bool Sniper::IsDead() {
-	if (health <= 0) {
+	if (sniperHealth <= 0) {
 		return true;
 	}
 	else {
 		return false;
 	}
+}
+
+void Sniper::LOS_Move(Player* player, const std::vector<Tile*>& tiles) {
+	if (HelperFunctions::RayCaster(GetCenter(), player->GetCoordinates(), tiles)) {
+		vec2 directionVector = direction(sniperPosition, player->GetCoordinates());
+		sniperPosition = sniperPosition + directionVector * sniperSpeed;
+		mCollider.x = sniperPosition.x + 20;
+		mCollider.y = sniperPosition.y + 20;
+		/* DONT NEED THIS IF WALLS ARE NOT PRESENT 
+		if (HitsWall(tiles)) {
+			zombiePosition = zombiePosition - directionVector;
+			mMainCollider.x = zombiePosition.x + 20;
+			mMainCollider.y = zombiePosition.y + 20;
+		}
+		*/
+		
+	}
+	/*
+	if (currentPath.empty()) {
+		return;
+	}
+	
+	if (zombiePosition == currentPath[0]->GetCenter()) {
+		currentPath.erase(currentPath.begin());
+	}
+	if (currentPath.empty()) {
+		return;
+	}
+	*/
 }
 
 void Sniper::OnCollide(Entity& entity) {
@@ -80,7 +113,7 @@ void Sniper::OnCollide(Entity& entity) {
 
 void Sniper::OnCollide(Bullet& bullet) {
 	if (bullet.shooter == PLAYER) {
-		TakeDamage(10);		//player bullet damage
+		TakeDamage(bullet.PLAYER_BULLET_DAMAGE);		//player bullet damage
 	}
 }
 

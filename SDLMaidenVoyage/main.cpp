@@ -13,7 +13,6 @@
 #include "HelperFunctions.h"
 #include "Timer.h"
 #include "Zombie.h"
-#include "LButton.h"
 #include "Camera.h"
 #include "Bullet.h"
 #include "Sniper.h"
@@ -53,9 +52,8 @@ int main(int argc, char* args[]) {
 					else {
 						stateManager.HandleEvent(e);
 					}
-					//std::cout << "in SDL_Pollevent loop, e: \n";
+					
 				}
-				//std::cout << "main loop running";
 				
 				while (lag >= MS_PER_UPDATE) {
 					stateManager.Update();

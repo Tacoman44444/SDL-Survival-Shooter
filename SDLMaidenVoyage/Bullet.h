@@ -22,7 +22,7 @@ public:
 	Bullet(double PosX, double PosY, Shooter shooter, double TargetX, double TargetY);
 	~Bullet();
 
-	static const int FIRE_VELOCITY = 20;
+	static const int FIRE_VELOCITY = 60;
 	static const int BULLET_DAMAGE = 15;
 	static const int TOTAL_SHOTGUN_PARTICLES = 10;
 
@@ -48,6 +48,9 @@ public:
 	double DirX, DirY;
 	vec2 bulletDirection = vec2(0, 0);
 	Shooter shooter;
+
+	int PLAYER_BULLET_DAMAGE;
+	int SNIPER_BULLET_DAMAGE;
 
 private:
 	bool isDestroyed;

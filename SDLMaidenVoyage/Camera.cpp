@@ -9,6 +9,7 @@ void Camera::Adjust(const vec2& playerCoords) {
 	cameraRect.x = (playerCoords.x) - SCREEN_WIDTH / 2;
 	cameraRect.y = (playerCoords.y) - SCREEN_HEIGHT / 2;
 
+	/*
 	if (cameraRect.x < 0) {
 		cameraRect.x = 0;
 	}
@@ -21,6 +22,8 @@ void Camera::Adjust(const vec2& playerCoords) {
 	if (cameraRect.y > LEVEL_HEIGHT - cameraRect.h) {
 		cameraRect.y = LEVEL_HEIGHT - cameraRect.h;
 	}
+	*/
+	
 }
 
 const Coordinate Camera::GetCameraCoords() {

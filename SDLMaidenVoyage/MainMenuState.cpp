@@ -2,9 +2,13 @@
 
 MainMenuState::MainMenuState() : PressPlayButton(LButton(gPressPlayTexture)) {}
 
+MainMenuState::~MainMenuState() {
+	std::cout << "Main menu state was deleted\n";
+}
+
 void MainMenuState::Enter() {
 	PressPlayButton.SetDimensions(SCREEN_WIDTH / 2, SCREEN_HEIGHT / 2, gPressPlayTexture.GetWidth(), gPressPlayTexture.GetWidth());
-
+	Mix_PlayMusic(gMusic, -1);
 }
 
 GameState* MainMenuState::HandleEvent(SDL_Event& e) {
@@ -12,9 +16,9 @@ GameState* MainMenuState::HandleEvent(SDL_Event& e) {
 	SDL_GetMouseState(&x, &y);
 	if (e.type == SDL_MOUSEBUTTONDOWN) {
 		if (PressPlayButton.CheckCollisionWithButton(Coordinate(x, y))) {
-			Mix_PlayMusic(gMusic, -1);
+			
 			Level level;
-			level.mapFile = "Assets/level.map";
+			level.mapFile = "Assets/open_level.map";
 			level.totalTiles = 625;
 			//startTime = SDL_GetTicks();	
 			return new PlayState(level);
@@ -29,10 +33,10 @@ void MainMenuState::Update() {
 }
 
 void MainMenuState::Render() {
-	SDL_SetRenderDrawColor(gRenderer, 0x00, 0x00, 0x00, 0xFF);
 	SDL_RenderClear(gRenderer);
-	SDL_Rect stretchedSize = { 0, 0, SCREEN_WIDTH, SCREEN_HEIGHT };
-	gMainMenuTexture.Render(0, 0, &stretchedSize);
+	SDL_Rect tempRect = { 0, 0, 2000, 2000 };
+	SDL_SetRenderDrawColor(gRenderer, 30, 30, 30, SDL_ALPHA_OPAQUE);
+	SDL_RenderDrawRect(gRenderer, &tempRect);
 	PressPlayButton.Render();
 	SDL_RenderPresent(gRenderer);
 }

@@ -177,8 +177,13 @@ namespace HelperFunctions {
 
 
 	bool EntityInFrame(const SDL_Rect& frame, const vec2& entityPosition) {
-		int frameIncrease = 100;
+		int frameIncrease = 0;
 		return (entityPosition.x > frame.x - frameIncrease && entityPosition.x < frame.x + frame.w + frameIncrease && entityPosition.y > frame.y - frameIncrease && entityPosition.y < frame.y + frame.h + frameIncrease);
+	}
+
+	bool EntityInFrame(const SDL_Rect& frame, const vec2& entityPosition, int frameDecrease) {
+		int decrease = frameDecrease;
+		return (entityPosition.x > frame.x + decrease && entityPosition.x < frame.x + frame.w - decrease && entityPosition.y > frame.y + decrease && entityPosition.y < frame.y + frame.h - decrease);
 	}
 
 	int GenerateRandomSpawn(int startValue, int endValue) {
@@ -206,7 +211,7 @@ namespace HelperFunctions {
 		int err = dx - dy;
 
 		while (x0 != x1 || y0 != y1) {
-			if (y0 * TileData::TOTAL_TILES_ROW + x0 >= 0 && y0 * TileData::TOTAL_TILES_ROW + x0 <= TileData::TOTAL_TILES) {
+			if (y0 * TileData::TOTAL_TILES_ROW + x0 >= 0 && y0 * TileData::TOTAL_TILES_ROW + x0 <= TileData::TOTAL_TILES - 1) {
 				if (tiles[y0 * TileData::TOTAL_TILES_ROW + x0]->getType() >= 3) {
 					return false;
 				}

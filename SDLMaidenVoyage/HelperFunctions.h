@@ -29,6 +29,8 @@ namespace HelperFunctions {
 
 	bool EntityInFrame(const SDL_Rect& frame, const vec2& entityPosition);
 
+	bool EntityInFrame(const SDL_Rect& frame, const vec2& entityPosition, int frameDecrease);
+
 	int GenerateRandomSpawn(int startValue, int endValue);
 
 	bool RayCaster(const Coordinate& a, const Coordinate& b, const std::vector<Tile*>& tiles);
