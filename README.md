@@ -1,22 +1,15 @@
-# SDLMaidenVoyage
+# Dungeon Survivors
 
-Game is currently in VERSION 1.0
+Dungeon Survivors is a top down shoot 'em up style video game I made to learn the SDL multimedia library and low level
+game architecture in general. The game is currently in VERSION 2. I plan to add more content to the game eventually, but 
+the only updates in the near future will be balancing updates.
 
+## Essence
 
-VERSION 2.0
+You fight off a horde of enemies in wave based combat. After surviving each wave, you have the option to upgrade one of
+four attributes to prepare for the stronger and faster mobs of the next wave.
 
-Features:
+## Where To Download
 
-->Health UI
+https://tacoman44444.itch.io/dungeon-survivors
 
-->Procedurally generated levels and backrooms stylegame loop 
-
-
-Fixes:
-
-->Fix game over happening only after some input
-
-->Fix score glitch where killing zombie gives 2 points sometimes
-
-
-There is no build system for the game at the moment, it will come with 2.0
